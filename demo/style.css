@@ -1,0 +1,24 @@
+ #get-month {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            row-gap: 5px;
+        }
+
+        #get-month button[type='submit'] {
+            width: fit-content;        
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+        }
+        .calendar .calendar-header {
+            font-weight: bold;
+            text-align: center;
+            text-transform: capitalize;
+            border: 1px solid black;
+        }
+        .calendar .calendar-date {
+            border: 1px solid black;
+        }

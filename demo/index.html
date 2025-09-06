@@ -1,99 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Index</title>
     <script src="../Calendar.js"></script>
-    <style>
-        #get-month {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            row-gap: 5px;
-        }
+    <script src="../CalendarRenderer.js"></script>
+    <link href="style.css" rel="stylesheet" />
+  </head>
 
-        #get-month button[type='submit'] {
-            width: fit-content;        
-        }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-        }
-        .calendar .calendar-header {
-            font-weight: bold;
-            text-align: center;
-            text-transform: capitalize;
-            border: 1px solid black;
-        }
-        .calendar .calendar-date {
-            border: 1px solid black;
-        }
-    </style>
-</head>
-
-<body>
-    <h1>Calendar.JS</h1>
-    <h2>Demo MonthCalendar</h2>
-    <form id="get-month">
-        <div class="form-group">        
-            <label for="first-weekday">firstWeekDay</label>
-            <input required type="number" min="0" max="6" name="first-weekday" value="0" id="first-weekday"/>
+  <body>
+    <main>
+      <h1>Calendar.JS</h1>
+      <section class="month-calendar">
+        <h2>Demo MonthCalendar</h2>
+        <div class="month-calendar-control">
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Next</button>
         </div>
-        <div class="form-group">        
-            <label for="locale">locale</label>
-            <input required type="local"  name="locale" value="en-US" id="locale"/>
+        <div id="month-calendar"></div>
+      </section>
+      <section class="week-calendar">
+        <h2>Demo WeekCalendar</h2>
+        <div class="week-calendar-control">
+          <button type="button" class="prev">Previous</button>
+          <button type="button" class="next">Next</button>
         </div>
-        <div class="form-group">
-            <label for="initial-date">Initial Date</label>
-            <input required type="date" name="initial-date" id="initial-date"/>
-        </div>
-        <div class="form-group">
-            <label for="show-other-month">Show other month</label>
-            <input type="checkbox" checked name="show-other-month" id="show-other-month"/>
-        </div>
-        <button type="submit">Valider</button>
-        <div class="calendar-control">
-            <button type="button" class="prev">Previous</button>
-            <button type="button" class="next">Next</button>
-        </div>
-        <div class="output"></div>
-    </form>
-    <script>
-        const $monthForm = document.getElementById('get-month');
-        const $output = $monthForm.getElementsByClassName('output')[0]
-        const $prevButton = document.querySelector('.calendar-control .prev')
-        const $nextButton = document.querySelector('.calendar-control .next')
-        
-        const now = new Date()
-        $monthForm.querySelector('[name="initial-date"]').value = new Date().toISOString().substring(0, 10);
-        let calendar = undefined
-        let showOtherMonth = true; 
-
-        $monthForm.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const monthFormData = new FormData($monthForm);
-            const initialDate = new Date(monthFormData.get('initial-date'))
-            calendar = new Calendar(parseInt(monthFormData.get('first-weekday')), initialDate, monthFormData.get('locale'));
-            showOtherMonth = monthFormData.get('show-other-month')
-            const $monthCalendar = calendar.displayMonthCalendar(showOtherMonth);
-            $output.innerHTML = $monthCalendar.outerHTML;
-        });
-        
-        $prevButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            const $monthCalendar =  calendar.displayPreviousMonthCalendar(showOtherMonth)
-            $output.innerHTML = $monthCalendar.outerHTML;
-        });
-        
-        $nextButton.addEventListener('click', (event) => {
-            event.preventDefault();
-            const $monthCalendar =  calendar.displayNextMonthCalendar(showOtherMonth)
-            $output.innerHTML = $monthCalendar.outerHTML;
-        });
-        $monthForm.requestSubmit();
-
-    </script>
-</body>
+        <div id="week-calendar"></div>
+      </section>
+    </main>
+    <script src="demoCalendar.js"></script>
+  </body>
 </html>
