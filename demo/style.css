@@ -1,24 +1,65 @@
- #get-month {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            row-gap: 5px;
-        }
+@import url('https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
-        #get-month button[type='submit'] {
-            width: fit-content;        
-        }
+:root {
+ --primary: #2E3532;
+ --light-primary: #4b5853;
+ --primary-contrast: #FFFFFF;
+ --secondary: #8B2635;
+ --secondary-contrast: #FFFFFF;
+}
 
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-        }
-        .calendar .calendar-header {
-            font-weight: bold;
-            text-align: center;
-            text-transform: capitalize;
-            border: 1px solid black;
-        }
-        .calendar .calendar-date {
-            border: 1px solid black;
-        }
+body {
+    font-family: "Funnel Sans", sans-serif;
+}
+
+div[class$='calendar-control'] {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 5px;
+    margin-bottom: 5px;
+}
+
+div[class$='calendar-control'] button {
+    background-color: var(--primary);
+    color: var(--primary-contrast);
+    border: none;
+    padding: 1rem 2rem;
+    min-width: 150px;
+    cursor: pointer;
+    border-radius: 1rem;
+}
+
+div[class$='calendar-control'] button:hover {
+    background-color: var(--secondary);
+    color: var(--secondary-contrast);
+}
+
+div[class$='calendar-control'] .title {
+    margin: 0;
+}
+
+
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar .calendar-header {
+    font-weight: bold;
+    text-align: center;
+    text-transform: capitalize;
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    color: var(--primary-contrast);    
+
+}
+
+.calendar .calendar-date {
+    border: 1px solid var(--primary);
+    text-align: center;
+}
+
+.calendar .calendar-date.other-month-date {
+    color: var(--light-primary);
+}

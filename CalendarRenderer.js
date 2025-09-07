@@ -85,7 +85,11 @@ class CalendarRenderer extends Calendar {
             const $date = document.createElement('div');
             $date.classList.add('calendar-date');
             $date.setAttribute('data-date', date.toString())
-            if (this.view === 'week' || this.withOtherMonthsDates || date.getMonth() === this.date.getMonth()) {
+            const isOtherMonthDate = date.getMonth() !== this.date.getMonth()
+            if (this.view === 'month' && isOtherMonthDate) {
+                $date.classList.add('other-month-date');
+            }
+            if (this.view === 'week' || this.withOtherMonthsDates || !isOtherMonthDate) {
                 this._renderDate($date, date)
             }
             $calendar.appendChild($date)
@@ -105,7 +109,11 @@ class CalendarRenderer extends Calendar {
      * @param {Date} date The Date object to be rendered.
      */
     _renderDate($date, date) {
-        $date.textContent = date.toString();
+        const dateFormater = new Intl.DateTimeFormat(this.locale, {
+            day: "numeric",
+        });
+
+        $date.textContent = dateFormater.format(date);
     }
 
     /**
