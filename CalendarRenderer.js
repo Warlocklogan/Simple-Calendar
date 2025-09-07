@@ -68,32 +68,62 @@ class CalendarRenderer extends Calendar {
         const $calendar = document.createElement('div');
         $calendar.classList.add('calendar');
         $calendar.classList.add(`${this.view}-calendar`);
+        $calendar.setAttribute('role', 'grid')
 
         // headers
         const weekdayFormater = new Intl.DateTimeFormat(this.locale, {
             weekday: 'long',
         });
 
+        const $calendarHeader = document.createElement('div');
+        $calendarHeader.setAttribute('role', 'columnheader');
+        $calendarHeader.classList.add('calendar-header-row');
+        $calendarHeader.classList.add('calendar-row')
         for (const date of [...calendar].splice(0, 7)) {
             const $header = document.createElement('div');
             $header.classList.add('calendar-header');
             $header.textContent = weekdayFormater.format(date);
-            $calendar.appendChild($header);
+            $calendarHeader.appendChild($header);
         }
+        $calendar.appendChild($calendarHeader);
+
+        //body 
+        const now = new Date();
+        const nowParts = {year: now.getFullYear(), month: now.getMonth(), date: now.getDate()}
         
-        for (const date of calendar) {
+        let $calendarRow = document.createElement('div');
+        $calendarRow.setAttribute('role', 'row');
+        $calendarRow.classList.add('calendar-date-row');
+        $calendarRow.classList.add('calendar-row');
+
+        for (const [index, date] of calendar.entries()) {
+            if (index !== 0 && date.getDay() === this.firstWeekday) {
+                $calendar.appendChild($calendarRow);
+                $calendarRow = document.createElement('div');
+                $calendarRow.setAttribute('role', 'row');
+                $calendarRow.classList.add('calendar-date-row');
+                $calendarRow.classList.add('calendar-row');
+
+            }
             const $date = document.createElement('div');
             $date.classList.add('calendar-date');
             $date.setAttribute('data-date', date.toString())
+            $date.setAttribute('role', "gridcell")
             const isOtherMonthDate = date.getMonth() !== this.date.getMonth()
+            const isCurrentDate = date.getFullYear() === nowParts.year && date.getMonth() === nowParts.month && date.getDate() === nowParts.date;
+            if (isCurrentDate) {
+                $date.classList.add('current-date');
+                $date.setAttribute('aria-current', 'date')
+            }
             if (this.view === 'month' && isOtherMonthDate) {
                 $date.classList.add('other-month-date');
             }
             if (this.view === 'week' || this.withOtherMonthsDates || !isOtherMonthDate) {
                 this._renderDate($date, date)
             }
-            $calendar.appendChild($date)
+            $calendarRow.appendChild($date)
         }
+        $calendar.appendChild($calendarRow);
         return $calendar;
     }
 

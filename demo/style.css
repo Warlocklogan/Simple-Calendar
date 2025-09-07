@@ -39,8 +39,7 @@ div[class$='calendar-control'] .title {
     margin: 0;
 }
 
-
-.calendar {
+.calendar .calendar-row {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 }
